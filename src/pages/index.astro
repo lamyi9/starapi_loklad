@@ -5,107 +5,106 @@ import Tools from '../components/icons/Tools.astro'
 import CardMd from '../components/CardMd.astro'
 import TopPicks from '../components/TopPicksWin.astro'
 import TopPicksMac from '../components/TopPicksMac.astro'
-
-import { getCollection } from 'astro:content';
 import BaseLayout from '../Layouts/BaseLayout.astro';
 import TopPicksAndroid from '../components/TopPicksAndroid.astro';
 import Sheild from '../components/icons/Sheild.astro';
 import Globe from '../components/icons/Globe.astro';
 import Chat from '../components/icons/chat.astro'
-import MenuBottomHome from '../components/Menu-Bottom-Home.astro';
 
-const apps = await getCollection("apps");
-const browsers = await getCollection("browsers");
-const communication = await getCollection("communication");
-const tools = await getCollection("tools");
 
+const fetchCollection = async (name) => {
+    const res = await fetch(`${import.meta.env.STRAPI_URL}/api/${name}?populate=*&pagination[pageSize]=100`, {
+        headers: { Authorization: `Bearer ${import.meta.env.STRAPI_TOKEN}` }
+    });
+    const json = await res.json();
+    return json.data ?? [];
+};
+
+const apps = await fetchCollection('apps');
+
+console.log('Apps data:', apps.map(a => ({ title: a.title, slug: a.slug })));
+
+
+const browsers = await fetchCollection('browsers');
+const communication = await fetchCollection('communications');
+const tools = await fetchCollection('tools');
 
 const {
     title = "Loklad",
     description = "ཁྱེད་ཀྱི་གློག་ཀླད་དང་སྒེར་གྱི་གནས་ཚུལ་སྲུང་སྐྱོབ་བྱེད་པར་ཆེད་དུ་གྲུབ་པའི་ཉེན་སྲུང་མཉེན་ཆས་ནུས་པ་ཅན་སྣ་ཚོགས་ཤིག་ང་ཚོའི་དྲྭ་སྟེང་དུ་ཡོད་ལ། ཁྱེད་ལ་དགོས་ངེས་ཀྱི་ཅ་དངོས་ཡོད་ཚད་ང་ཚོའི་ཕྱོགས་བསྡུས་ཁྲོད་ནས་རག་ཐུབ། ཁྱེད་ཀྱིས་གོམ་པ་དང་པོ་དེ་སྤོས་ཏེ་སྔར་ལས་བདེ་འཇགས་ཀྱི་དྲྭ་སྟེང་གི་འཚོ་བ་རོལ་བར་བརྩོན་འགྲུས་རྩོམས།",
-    image ="/wallpaper2.jpg",
+    image= "/wallpaper2.jpg",
     url,
-    type ="website"
-    } = Astro.props
+    type= "website"
+} = Astro.props;
 ---
+
 <BaseLayout {title} {description} {image} {url} {url}>
 
-    <Hero/>	
+    <Hero/>
 
-    <div class="max-w-screen-xl mx-2 md:mx-auto bg-gray-900/70 rounded-3xl mt-96   shadow-xl backdrop-blur-md pb-10 relative z-10">  
-        <div class="overflow-x-clip ">
+    <div class="max-w-screen-xl mx-2 md:mx-auto bg-gray-900/70 rounded-3xl mt-96 shadow-xl backdrop-blur-md pb-10 relative z-10">
+        <div class="overflow-x-clip">
         <div class="max-w-screen-xl mx-auto" id="app-category">
-            <div class="mb-4  py-5 font-bo">
-                <ul class="flex flex-wrap  text-sm  text-center justify-center gap-0  " id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
-                    <li class="me-2 " role="presentation">
-                        <button class="  text-xl  md:p-4 border-b-2  rounded-t-lg flex items-center gap-0 md:gap-3 p-1 focus:text-green-400 text-orange-400 hover:text-orange-300 border-orange-400 focus:border-green-400 hover:border-orange-300" id="apps-tab" data-tabs-target="#apps" type="button" role="tab" aria-controls="apps" aria-selected="false">
+            <div class="mb-4 py-5 font-bo">
+                <ul class="flex flex-wrap text-sm text-center justify-center gap-0" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
+                    <li class="me-2" role="presentation">
+                        <button class="text-xl md:p-4 border-b-2 rounded-t-lg flex items-center gap-0 md:gap-3 p-1 focus:text-green-400 text-orange-400 hover:text-orange-300 border-orange-400 focus:border-green-400 hover:border-orange-300" id="apps-tab" data-tabs-target="#apps" type="button" role="tab" aria-controls="apps" aria-selected="false">
                             <Sheild/>
-                            <span class="text-sm md:text-lg ">བདེ་འཇགས།</span>
+                            <span class="text-sm md:text-lg">བདེ་འཇགས།</span>
                         </button>
                     </li>
                     <li class="me-2" role="presentation">
-                        <button class="text-xl  md:p-4 border-b-2 rounded-t-lg flex items-center gap-0 md:gap-3 p-1 focus:text-green-400 text-orange-400 hover:text-orange-300 border-orange-400 focus:border-green-400 hover:border-orange-300" id="browser-tab" data-tabs-target="#browser" type="button" role="tab" aria-controls="browser" aria-selected="false">
+                        <button class="text-xl md:p-4 border-b-2 rounded-t-lg flex items-center gap-0 md:gap-3 p-1 focus:text-green-400 text-orange-400 hover:text-orange-300 border-orange-400 focus:border-green-400 hover:border-orange-300" id="browser-tab" data-tabs-target="#browser" type="button" role="tab" aria-controls="browser" aria-selected="false">
                             <Globe/>
-                            <span class="text-sm md:text-lg "> བཤེར་ཆས།</span>
+                            <span class="text-sm md:text-lg">བཤེར་ཆས།</span>
                         </button>
                     </li>
                     <li class="me-2" role="presentation">
-                        <button class="text-xl  md:p-4 border-b-2 rounded-t-lg flex items-center gap-0 md:gap-3 p-1 focus:text-green-400 text-orange-400 hover:text-orange-300 border-orange-400 focus:border-green-400 hover:border-orange-300" id="communication-tab" data-tabs-target="#communication" type="button" role="tab" aria-controls="communication" aria-selected="false">
+                        <button class="text-xl md:p-4 border-b-2 rounded-t-lg flex items-center gap-0 md:gap-3 p-1 focus:text-green-400 text-orange-400 hover:text-orange-300 border-orange-400 focus:border-green-400 hover:border-orange-300" id="communication-tab" data-tabs-target="#communication" type="button" role="tab" aria-controls="communication" aria-selected="false">
                             <Chat/>
                             <span class="text-sm md:text-lg">བརྡ་འཕྲིན།</span>
                         </button>
                     </li>
                     <li class="me-2" role="presentation">
-                        <button class="text-xl  md:p-4 border-b-2 rounded-t-lg flex items-center gap-0 md:gap-3 p-1 focus:text-green-400 text-orange-400 hover:text-orange-300 border-orange-400 focus:border-green-400 hover:border-orange-300" id="tools-tab" data-tabs-target="#tools" type="button" role="tab" aria-controls="tools" aria-selected="false">
+                        <button class="text-xl md:p-4 border-b-2 rounded-t-lg flex items-center gap-0 md:gap-3 p-1 focus:text-green-400 text-orange-400 hover:text-orange-300 border-orange-400 focus:border-green-400 hover:border-orange-300" id="tools-tab" data-tabs-target="#tools" type="button" role="tab" aria-controls="tools" aria-selected="false">
                             <Tools/>
                             <span class="text-sm md:text-lg">ལག་ཆ།</span>
                         </button>
                     </li>
                 </ul>
             </div>
-                <div id="default-tab-content" >
-                    <div class=" py-4 md:px-4 rounded-xl  dark:bg-gray-800 grid  grid-cols-3 md:grid-cols-6 lg:grid-cols-7 gap-3 md:gap-3 p-1 " id="apps" role="tabpanel" aria-labelledby="apps-tab">
-                    {
-                        apps.map((app)=>(
-                        <CardMd title={app.data.title} category={app.data.category} rating={app.data.rating} thumbnail={app.data.thumbnail} url={`/apps/${app.slug}`}/>
-                        ))
-                    }
-                    </div>
+
+            <div id="default-tab-content">
+                <div class="py-4 md:px-4 rounded-xl dark:bg-gray-800 grid grid-cols-3 md:grid-cols-6 lg:grid-cols-7 gap-3 md:gap-3 p-1" id="apps" role="tabpanel" aria-labelledby="apps-tab">
+                    {apps.map((app) => (
+                        <CardMd title={app.title} category={app.category} rating={app.rating} thumbnail={app.thumbnail?.url ?? app.thumbnail} url={`/apps/${app.slug}`}/>
+                    ))}
                 </div>
-                <div class="py-4 md:px-4 rounded-xl  dark:bg-gray-800 grid  grid-cols-3 md:grid-cols-6 lg:grid-cols-7 gap-3 md:gap-3 p-1" id="browser" role="tabpanel" aria-labelledby="dashboard-tab">
-                    {
-                        browsers.map((browser)=>(
-                        <CardMd title={browser.data.title} category={browser.data.category} rating={browser.data.rating} thumbnail={browser.data.thumbnail} url={`/browsers/${browser.slug}`}/>
-                        ))
-                    }
+
+                <div class="py-4 md:px-4 rounded-xl dark:bg-gray-800 grid grid-cols-3 md:grid-cols-6 lg:grid-cols-7 gap-3 md:gap-3 p-1" id="browser" role="tabpanel" aria-labelledby="dashboard-tab">
+                    {browsers.map((browser) => (
+                        <CardMd title={browser.title} category={browser.category} rating={browser.rating} thumbnail={browser.thumbnail?.url ?? browser.thumbnail} url={`/browsers/${browser.slug}`}/>
+                    ))}
                 </div>
-                <div class=" py-4 md:px-4 rounded-xl  dark:bg-gray-800 grid  grid-cols-3 md:grid-cols-6 lg:grid-cols-7 gap-3 md:gap-3 p-1" id="communication" role="tabpanel" aria-labelledby="communication-tab">
-                    {
-                        communication.map((communication)=>(
-                        <CardMd title={communication.data.title} category={communication.data.category} rating={communication.data.rating} thumbnail={communication.data.thumbnail} url={`/communication/${communication.slug}`}/>
-                        ))
-                    }
+
+                <div class="py-4 md:px-4 rounded-xl dark:bg-gray-800 grid grid-cols-3 md:grid-cols-6 lg:grid-cols-7 gap-3 md:gap-3 p-1" id="communication" role="tabpanel" aria-labelledby="communication-tab">
+                    {communication.map((item) => (
+                        <CardMd title={item.title} category={item.category} rating={item.rating} thumbnail={item.thumbnail?.url ?? item.thumbnail} url={`/communication/${item.slug}`}/>
+                    ))}
                 </div>
-                <div class=" py-4 md:px-4 rounded-xl  dark:bg-gray-800 grid  grid-cols-3 md:grid-cols-6 lg:grid-cols-7 gap-3 md:gap-3 p-1" id="tools" role="tabpanel" aria-labelledby="tools-tab">
-                    {
-                        tools.map((tools)=>(
-                        <CardMd title={tools.data.title} category={tools.data.category} rating={tools.data.rating} thumbnail={tools.data.thumbnail} url={`/tools/${tools.slug}`}/>
-                        ))
-                    }
+
+                <div class="py-4 md:px-4 rounded-xl dark:bg-gray-800 grid grid-cols-3 md:grid-cols-6 lg:grid-cols-7 gap-3 md:gap-3 p-1" id="tools" role="tabpanel" aria-labelledby="tools-tab">
+                    {tools.map((tool) => (
+                        <CardMd title={tool.title} category={tool.category} rating={tool.rating} thumbnail={tool.thumbnail?.url ?? tool.thumbnail} url={`/tools/${tool.slug}`}/>
+                    ))}
                 </div>
+            </div>
         </div>
         </div>
 
-    <TopPicks/>
-    <TopPicksAndroid/>
-    <TopPicksMac/>
-
+        <TopPicks/>
+        <TopPicksAndroid/>
+        <TopPicksMac/>
     </div>
 
-<!-- <MenuBottomHome/> -->
-
 </BaseLayout>
-
-
-
-

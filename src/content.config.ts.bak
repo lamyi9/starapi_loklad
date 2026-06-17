@@ -11,7 +11,7 @@ const appsCollection = defineCollection({
         thumbnail: image(),
         author: z.string(),
         website: z.string().url(),
-        collection: z.string().url(),
+        collection: z.string(),
         country: z.string(),
         rating: z.number(),
         apk: z.string().url().optional(),

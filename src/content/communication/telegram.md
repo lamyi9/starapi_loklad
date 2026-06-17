@@ -8,7 +8,7 @@ thumbnail: '/images/Telegram.png'
 author: 'Telegram FZ-LLC'
 website: 'https://telegram.org'
 country: 'United Arab Emirates'
-rating: '4.7'
+rating: 4.7
 apk: https://loklad.s3.us-east-1.amazonaws.com/apk/Telegram.apk
 apk_version: '12.5'
 windows: https://loklad.s3.us-east-1.amazonaws.com/windows/tsetup-x64.6.6.2.exe
